@@ -488,6 +488,7 @@ class Estimator(tf.estimator.Estimator):
                evaluator=None,
                report_materializer=None,
                metric_fn=None,
+               forward_features=None,
                force_grow=False,
                replicate_ensemble_in_training=False,
                adanet_loss_decay=.9,
@@ -527,6 +528,7 @@ class Estimator(tf.estimator.Estimator):
     self._evaluator = evaluator
     self._report_materializer = report_materializer
 
+    self._forward_features = forward_features
     self._force_grow = force_grow
     self._delay_secs_per_worker = delay_secs_per_worker
     self._max_worker_delay_secs = max_worker_delay_secs
@@ -807,11 +809,16 @@ class Estimator(tf.estimator.Estimator):
         session_config=config.session_config,
         device_fn=config.device_fn,
         protocol=config.protocol)
-    return tf.estimator.Estimator(
+    estimator = tf.estimator.Estimator(
         model_fn=self._adanet_model_fn,
         config=temp_run_config,
         model_dir=temp_model_dir,
         params={})
+
+    estimator = tf.contrib.estimator.forward_features(
+      estimator, self._forward_features)
+
+    return estimator
 
   def _prepare_next_iteration(self, train_input_fn, current_iteration):
     """Prepares the next iteration.

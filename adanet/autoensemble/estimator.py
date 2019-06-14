@@ -301,6 +301,7 @@ class AutoEnsembleEstimator(Estimator):
     ensemble_strategies: See :class:`adanet.Estimator`.
     evaluator:  See :class:`adanet.Estimator`.
     metric_fn:  See :class:`adanet.Estimator`.
+    forward_features:  See :class:`adanet.Estimator`.
     force_grow:  See :class:`adanet.Estimator`.
     adanet_loss_decay: See :class:`adanet.Estimator`.
     worker_wait_timeout_secs: See :class:`adanet.Estimator`.
@@ -326,6 +327,7 @@ class AutoEnsembleEstimator(Estimator):
                logits_fn=None,
                evaluator=None,
                metric_fn=None,
+               forward_features=None,
                force_grow=False,
                adanet_loss_decay=.9,
                worker_wait_timeout_secs=7200,
@@ -342,6 +344,7 @@ class AutoEnsembleEstimator(Estimator):
         ensemble_strategies=ensemble_strategies,
         evaluator=evaluator,
         metric_fn=metric_fn,
+        forward_features=forward_features,
         force_grow=force_grow,
         adanet_loss_decay=adanet_loss_decay,
         worker_wait_timeout_secs=worker_wait_timeout_secs,
